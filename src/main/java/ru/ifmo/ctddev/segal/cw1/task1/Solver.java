@@ -20,8 +20,8 @@ import java.util.stream.Collectors;
 public class Solver {
 
     public static final int MAX_ITER = 1000;
-    public static final double EPS = 1e-6;
-    public static final double[] start = new double[] {0, 0, 0, 0, 0};
+    public static final double EPS = 1e-3;
+    public static final double[] start = new double[] {1, 1, 1, 1, 1};
 
     public static Map<Constants.Substance, Double> solve(double T) {
         return solve(T, EPS, MAX_ITER, start);
