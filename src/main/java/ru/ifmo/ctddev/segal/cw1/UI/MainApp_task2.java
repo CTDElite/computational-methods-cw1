@@ -42,7 +42,7 @@ public class MainApp_task2 extends Application {
                 double px = 1 / TK;
                 Map<Constants.Substance, Double> PP = Solver.solve(TK);
                 double py_G = ii[pos].G(TK, PP.get(ii[pos]), delta);
-                double log_py_G = Math.log(-py_G);
+                double log_py_G = Math.log(Math.abs(py_G));
                 points.add(new XYChart.Data<Object, Object>(px, log_py_G));
                 System.err.println("T = " + T + " G" + py_G + ", " + log_py_G);
             }
@@ -56,7 +56,7 @@ public class MainApp_task2 extends Application {
             double px = 1 / TK;
             Map<Constants.Substance, Double> PP = Solver.solve(TK);
             double py_V = Constants.Substance.GA.V(TK, PP::get, delta);
-            double log_py_V = Math.log(-py_V);
+            double log_py_V = Math.log(Math.abs(py_V));
             points.add(new XYChart.Data<Object, Object>(px, log_py_V));
 //            System.err.println("T = " + T + " V = " + log_py_V);
         }
