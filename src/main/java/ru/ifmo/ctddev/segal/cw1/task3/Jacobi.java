@@ -1,4 +1,4 @@
-package task3;
+package ru.ifmo.ctddev.segal.cw1.task3;
 
 import ru.ifmo.ctddev.segal.cw1.FunctionalMatrix;
 
