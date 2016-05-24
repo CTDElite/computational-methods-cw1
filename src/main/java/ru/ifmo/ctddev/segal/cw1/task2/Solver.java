@@ -4,7 +4,6 @@ import ru.ifmo.ctddev.segal.cw1.Constants;
 import ru.ifmo.ctddev.segal.cw1.FunctionalMatrix;
 import ru.ifmo.ctddev.segal.cw1.FunctionalVector;
 import ru.ifmo.ctddev.segal.cw1.system_solvers.newton_method.NewtonMethod;
-import ru.ifmo.ctddev.segal.cw1.task1.Task;
 
 import java.util.Arrays;
 import java.util.List;
@@ -43,9 +42,8 @@ public class Solver {
                 0D,
                 90_000D
         );
-        FunctionalMatrix J = ru.ifmo.ctddev.segal.cw1.task1.Jacobi.createTask1(K, D);
-        FunctionalVector F = Task.task1(K, D, P);
+        FunctionalMatrix J = Jacobi.createTask2(K, D);
+        FunctionalVector F = Task.task2(K, D, P);
         return NewtonMethod.solve(start, J, F, EPS, MAX_ITER);
     }
-
 }
