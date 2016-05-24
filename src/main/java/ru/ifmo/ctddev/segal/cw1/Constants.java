@@ -1,5 +1,7 @@
 package ru.ifmo.ctddev.segal.cw1;
 
+import static ru.ifmo.ctddev.segal.cw1.Constants.Substance.*;
+
 /**
  * Created by dimatomp on 24.05.16.
  */
@@ -29,6 +31,26 @@ public class Constants {
             return H - phi * T;
         }
 
+        double sigma_N2() {
+            return (sigma + N2.sigma) / 2;
+        }
+
+        double eps_N2() {
+            return Math.sqrt(eps * N2.eps);
+        }
+
+        double mu_N2() {
+            return 2 * mu * N2.mu / (mu + N2.mu);
+        }
+
+        double omega(double T) {
+            return 1.074 * Math.pow(T / eps_N2(), -0.1604);
+        }
+
+        double D(double T) {
+            return 2.628e-2 * T * Math.sqrt(T) / (P_A * sigma_N2() * omega(T) * Math.sqrt(mu_N2()));
+        }
+
         final double H, f1, f2, f3, f4, f5, f6, f7, mu, sigma, eps;
 
         Substance(double h, double f1, double f2, double f3, double f4, double f5, double f6, double f7, double mu, double sigma, double eps) {
@@ -44,5 +66,25 @@ public class Constants {
             this.sigma = sigma;
             this.eps = eps;
         }
+    }
+
+    public static double K(int number, double T) {
+        double dG;
+        switch (number) {
+            case 1: dG = 2 * AL.G(T) + 2 * H_CL.G(T) - 2 * AL_CL.G(T) - H2.G(T); break;
+            case 2: dG = AL.G(T) + 2 * H_CL.G(T) - AL_CL2.G(T) - H2.G(T); break;
+            case 3: dG = 2 * AL.G(T) + 6 * H_CL.G(T) - 2 * AL_CL3.G(T) - 3 * H2.G(T); break;
+            case 4: dG = 2 * GA.G(T) + 2 * H_CL.G(T) - 2 * GA_CL.G(T) - H2.G(T); break;
+            case 5: dG = GA.G(T) + 2 * H_CL.G(T) - GA_CL2.G(T) - H2.G(T); break;
+            case 6: dG = 2 * GA.G(T) + 6 * H_CL.G(T) - 2 * GA_CL3.G(T) - 3 * H2.G(T); break;
+            case 7: dG = AL_CL.G(T) + N_H3.G(T) - AL_N.G(T) - H_CL.G(T) - H2.G(T); break;
+            case 8: dG = 2 * AL_CL2.G(T) + 2 * N_H3.G(T) - 2 * AL_N.G(T) - 4 * H_CL.G(T) - H2.G(T); break;
+            case 9: dG = AL_CL3.G(T) + N_H3.G(T) - AL_N.G(T) - 3 * H_CL.G(T); break;
+            case 10: dG = GA_CL.G(T) + N_H3.G(T) - GA_N.G(T) - H_CL.G(T) - H2.G(T); break;
+            case 11: dG = 2 * GA_CL2.G(T) + 2 * N_H3.G(T) - 2 * GA_N.G(T) - 4 * H_CL.G(T) - H2.G(T); break;
+            case 12: dG = GA_CL3.G(T) + N_H3.G(T) - GA_N.G(T) - 3 * H_CL.G(T); break;
+            default: throw new IllegalArgumentException("Invalid equation number: " + number);
+        }
+        return Math.exp(-dG / (R * T)) / P_A;
     }
 }
