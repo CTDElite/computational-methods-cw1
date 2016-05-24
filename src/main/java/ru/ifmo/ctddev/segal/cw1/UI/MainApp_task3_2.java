@@ -65,7 +65,7 @@ public class MainApp_task3_2 extends Application {
         ObservableList<XYChart.Data<Object, Object>> points2 = FXCollections.observableArrayList();
         for (double x_g = 0.0; x_g <= 1.0; x_g += 0.05) {
             double px = x_g;
-            Pair<Map<Constants.Substance, Double>, Double> PP = Solver.solve1(TK, x_g);
+            Pair<Map<Constants.Substance, Double>, Double> PP = Solver.solve2(TK, x_g);
             double py_V = PP.getValue();
             points2.add(new XYChart.Data<Object, Object>(px, py_V));
         }
