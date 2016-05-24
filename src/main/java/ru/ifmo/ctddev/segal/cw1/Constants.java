@@ -1,5 +1,6 @@
 package ru.ifmo.ctddev.segal.cw1;
 
+import java.util.Arrays;
 import java.util.function.Function;
 
 import static ru.ifmo.ctddev.segal.cw1.Constants.Substance.*;
@@ -22,8 +23,8 @@ public class Constants {
         H2(0., 205.5368, 29.50487, 0.000168424, 0.86065612, -14.95312, 78.18955, -82.78981, 2.016, 2.93, 34.1, Double.NaN),
         H_CL(-92310., 243.9878, 23.15984, 0.001819985, 0.6147384, 51.16604, -36.89502, 9.174252, 36.461, 2.737, 167.1, Double.NaN),
         N2(0., 242.8156, 21.47467, 0.001748786, 0.5910039, 81.08497, -103.6265, 71.30775, 28.0135, 3.798, 71.4, Double.NaN),
-        AL(0., 172.8289, 50.51806, -0.00411847, 1.476107, -458.1279, 2105.75, -4168.337, 26.9815, Double.NaN, Double.NaN, 2690),
-        GA(0., 125.9597, 26.03107, 0.001178297, 0.13976, -0.5698425, 0.04723008, 7.212525, 69.723, Double.NaN, Double.NaN, 5900),
+        AL(0., 172.8289, 50.51806, -0.00411847, 1.476107, -458.1279, 2105.75, -4168.337, 26.9815, Double.NaN, Double.NaN, 2690, AL_CL, AL_CL2, AL_CL3),
+        GA(0., 125.9597, 26.03107, 0.001178297, 0.13976, -0.5698425, 0.04723008, 7.212525, 69.723, Double.NaN, Double.NaN, 5900, GA_CL, GA_CL2, GA_CL3),
         AL_N(-319000., 123.1132, 44.98092, -0.00734504, 1.86107, 31.39626, -49.92139, 81.22038, 40.988, Double.NaN, Double.NaN, 3200),
         GA_N(-114000., 160.2647, 52.86351, -0.00799055, 2.113389, 1.313428, -2.441129, 1.945731, 83.730, Double.NaN, Double.NaN, 6150);
 
@@ -53,13 +54,19 @@ public class Constants {
             return 2.628e-2 * T * Math.sqrt(T) / (P_A * sigma_N2() * omega(T) * Math.sqrt(mu_N2()));
         }
 
-        public double G(double T, double Pig, double Pie, double delta) {
-            return D(T) * (Pig - Pie) / (R * T * delta);
+        public double G(double T, double dP, double delta) {
+            return D(T) * dP / (R * T * delta);
         }
 
+        final Substance chlorides[];
         final double H, f1, f2, f3, f4, f5, f6, f7, mu, sigma, eps, ro;
 
-        Substance(double h, double f1, double f2, double f3, double f4, double f5, double f6, double f7, double mu, double sigma, double eps, double ro) {
+        public double V(double T, Function<Substance, Double> dP, double delta) {
+            double sum = Arrays.stream(chlorides).mapToDouble(substance -> substance.G(T, dP.apply(substance), delta)).sum();
+            return sum * GA.mu / GA.ro * 1e9;
+        }
+
+        Substance(double h, double f1, double f2, double f3, double f4, double f5, double f6, double f7, double mu, double sigma, double eps, double ro, Substance... chlorides) {
             H = h;
             this.f1 = f1;
             this.f2 = f2;
@@ -72,14 +79,10 @@ public class Constants {
             this.sigma = sigma;
             this.eps = eps;
             this.ro = ro;
+            this.chlorides = chlorides;
         }
     }
 
-    public static double V(double T, Function<Substance, Double> Pig, Function<Substance, Double> Pie, double delta) {
-        return (GA_CL.G(T, Pig.apply(GA_CL), Pie.apply(GA_CL), delta) +
-                GA_CL2.G(T, Pig.apply(GA_CL2), Pie.apply(GA_CL2), delta) +
-                GA_CL3.G(T, Pig.apply(GA_CL3), Pie.apply(GA_CL3), delta)) * GA.mu / GA.ro * 1e9;
-    }
 
     public static double K(int number, double T) {
         double dG;
