@@ -44,7 +44,7 @@ public class MainApp_task3_1 extends Application {
                 Pair<Map<Constants.Substance, Double>, Double> PP = Solver.solve1(TK, x_g);
                 double py_G = ii[pos].G(TK, PP.getKey().get(ii[pos]), delta);
                 points.add(new XYChart.Data<Object, Object>(px, py_G));
-                System.err.println("T = " + T + " G" + py_G + ", " + py_G);
+                System.err.println("T = " + T + " G " + py_G);
             }
             chart.getData().add(new XYChart.Series<>("G_" + ii[pos].toString(), points));
         }
@@ -56,7 +56,6 @@ public class MainApp_task3_1 extends Application {
             Pair<Map<Constants.Substance, Double>, Double> PP = Solver.solve1(TK, x_g);
             double py_V = Constants.VgAlGaN(TK, PP.getKey()::get, delta);
             points.add(new XYChart.Data<Object, Object>(px, py_V));
-//            System.err.println("T = " + T + " V = " + py_V);
         }
         chart.getData().add(new XYChart.Series<>("V_AL_GA_N", points));
 
@@ -66,8 +65,9 @@ public class MainApp_task3_1 extends Application {
         for (double x_g = 0.0; x_g <= 1.0; x_g += 0.05) {
             double px = x_g;
             Pair<Map<Constants.Substance, Double>, Double> PP = Solver.solve1(TK, x_g);
-            double py_V = PP.getValue();
-            points2.add(new XYChart.Data<Object, Object>(px, py_V));
+            double py_X = PP.getValue();
+            points2.add(new XYChart.Data<Object, Object>(px, py_X));
+            System.err.println("x = " + x_g + " py " + py_X);
         }
         chart.getData().add(new XYChart.Series<>("x = f(x_g)", points2));
 

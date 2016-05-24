@@ -15,7 +15,7 @@ import java.util.stream.Collectors;
 public class Solver {
     public static final int MAX_ITER = 1000;
     public static final double EPS = 1e-3;
-    public static final double[] start = new double[] {1, 1, 1, 1, 1, 1};
+    public static final double[] start = new double[] {14000, 24, 0, 10, 1550, 0.5};
 
     public static Pair<Map<Constants.Substance, Double>, Double> solve1(double T, double xg) {
         return solve(T, EPS, MAX_ITER, start, Arrays.asList(
