@@ -25,9 +25,6 @@ public class MainApp_task1 extends Application {
         launch(args);
     }
 
-    ObservableList<XYChart.Data<Object, Object>> points;
-    ObservableList<XYChart.Data<Object, Object>> points2;
-
     @Override
     public void start(Stage primaryStage) throws Exception {
         VBox vBox = new VBox();
@@ -40,26 +37,28 @@ public class MainApp_task1 extends Application {
         //G_i
         for (int pos = 0; pos < 3; pos++) {
             ObservableList<XYChart.Data<Object, Object>> points = FXCollections.observableArrayList();
-            for (int T = 350; T <= 650; T += 5) { //650
+            for (int T = 350; T <= 650; T += 5) {
                 double TK = T + 273.15;
                 double px = 1 / TK;
                 Map<Constants.Substance, Double> PP = Solver.solve(TK);
                 double py_G = ii[pos].G(TK, PP.get(ii[pos]), delta);
-                points.add(new XYChart.Data<Object, Object>(px, Math.log(-py_G)));
-                System.err.println("T = " + T + " G" + ii[pos].toString() + " = " + py_G);
+                double log_py_G = Math.log(-py_G);
+                points.add(new XYChart.Data<Object, Object>(px, log_py_G));
+                System.err.println("T = " + T + " G" + py_G + ", " + log_py_G);
             }
             chart.getData().add(new XYChart.Series<>("G_" + ii[pos].toString(), points));
         }
 
         //V_i
         ObservableList<XYChart.Data<Object, Object>> points = FXCollections.observableArrayList();
-        for (int T = 350; T <= 650; T += 5) { // 650
+        for (int T = 350; T <= 650; T += 5) {
             double TK = T + 273.15;
             double px = 1 / TK;
             Map<Constants.Substance, Double> PP = Solver.solve(TK);
             double py_V = Constants.Substance.AL.V(TK, PP::get, delta);
-            points.add(new XYChart.Data<Object, Object>(px, Math.log(-py_V)));
-            System.err.println("T = " + T + " V = " + py_V);
+            double log_py_V = Math.log(-py_V);
+            points.add(new XYChart.Data<Object, Object>(px, log_py_V));
+//            System.err.println("T = " + T + " V = " + log_py_V);
         }
         chart.getData().add(new XYChart.Series<>("V_Al", points));
 
@@ -68,7 +67,6 @@ public class MainApp_task1 extends Application {
         vBox.getChildren().add(chart);
         primaryStage.setScene(new Scene(vBox));
         primaryStage.show();
-//        ((XYChart.Series) chart.getData().get(0)).getData().addAll(new XYChart.Data<>(5, 5)); //TODO
         chart.lookupAll("*").forEach(c -> {
             System.out.println(c);
             System.out.println();
