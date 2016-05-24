@@ -53,7 +53,7 @@ public class Solver {
         double[] ans = NewtonMethod.solve(start, J, F, EPS, MAX_ITER);
         Map<Constants.Substance, Double> ret = new HashMap<>();
         for (int i = 0; i < ans.length; i++) {
-            ret.put(substances.get(i), ans[i]);
+            ret.put(substances.get(i), P.get(i) - ans[i]);
         }
         return ret;
     }
