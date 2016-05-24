@@ -53,8 +53,8 @@ public class Constants {
             return 2.628e-2 * T * Math.sqrt(T) / (P_A * sigma_N2() * omega(T) * Math.sqrt(mu_N2()));
         }
 
-        public double G(double T, double Pig, double Pie, double delta) {
-            return D(T) * (Pig - Pie) / (R * T * delta);
+        public double G(double T, double dP, double delta) {
+            return D(T) * dP / (R * T * delta);
         }
 
         final double H, f1, f2, f3, f4, f5, f6, f7, mu, sigma, eps, ro;
@@ -75,10 +75,10 @@ public class Constants {
         }
     }
 
-    public static double V(double T, Function<Substance, Double> Pig, Function<Substance, Double> Pie, double delta) {
-        return (GA_CL.G(T, Pig.apply(GA_CL), Pie.apply(GA_CL), delta) +
-                GA_CL2.G(T, Pig.apply(GA_CL2), Pie.apply(GA_CL2), delta) +
-                GA_CL3.G(T, Pig.apply(GA_CL3), Pie.apply(GA_CL3), delta)) * GA.mu / GA.ro * 1e9;
+    public static double V(double T, Function<Substance, Double> dP, double delta) {
+        return (GA_CL.G(T, dP.apply(GA_CL), delta) +
+                GA_CL2.G(T, dP.apply(GA_CL2), delta) +
+                GA_CL3.G(T, dP.apply(GA_CL3), delta)) * GA.mu / GA.ro * 1e9;
     }
 
     public static double K(int number, double T) {

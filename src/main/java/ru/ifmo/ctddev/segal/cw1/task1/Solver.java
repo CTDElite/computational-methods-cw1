@@ -5,9 +5,10 @@ import ru.ifmo.ctddev.segal.cw1.FunctionalMatrix;
 import ru.ifmo.ctddev.segal.cw1.FunctionalVector;
 import ru.ifmo.ctddev.segal.cw1.system_solvers.newton_method.NewtonMethod;
 
-import java.util.*;
-import java.util.concurrent.ConcurrentSkipListSet;
-import java.util.stream.Collector;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 /**
@@ -52,7 +53,7 @@ public class Solver {
         double[] ans = NewtonMethod.solve(start, J, F, EPS, MAX_ITER);
         Map<Constants.Substance, Double> ret = new HashMap<>();
         for (int i = 0; i < ans.length; i++) {
-            ret.put(substances.get(i), ans[i]);
+            ret.put(substances.get(i), P.get(i) - ans[i]);
         }
         return ret;
     }
