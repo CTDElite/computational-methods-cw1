@@ -19,6 +19,12 @@
             <artifactId>reactfx</artifactId>
             <version>1.4.1</version>
         </dependency>
+        <dependency>
+            <groupId>com.googlecode.efficient-java-matrix-library</groupId>
+            <artifactId>ejml</artifactId>
+            <version>0.16</version>
+        </dependency>
+
     </dependencies>
     <packaging>jar</packaging>
 
