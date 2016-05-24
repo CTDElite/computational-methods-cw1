@@ -17,7 +17,7 @@ public class Solver {
     public static final double EPS = 1e-6;
     public static final double[] start = new double[] {0, 0, 0, 0, 0, 0};
 
-    public Pair<Map<Constants.Substance, Double>, Double> solve1(double T, double xg) {
+    public static Pair<Map<Constants.Substance, Double>, Double> solve1(double T, double xg) {
         return solve(T, EPS, MAX_ITER, start, Arrays.asList(
                 30 * xg,
                 30 * (1 - xg),
@@ -28,7 +28,7 @@ public class Solver {
         ));
     }
 
-    public Pair<Map<Constants.Substance, Double>, Double> solve2(double T, double xg) {
+    public static Pair<Map<Constants.Substance, Double>, Double> solve2(double T, double xg) {
         return solve(T, EPS, MAX_ITER, start, Arrays.asList(
                 30 * xg,
                 30 * (1 - xg),
@@ -39,7 +39,7 @@ public class Solver {
         ));
     }
 
-    public Pair<Map<Constants.Substance, Double>, Double> solve(double T, double EPS, int MAX_ITER, double[] start, List<Double> P) {
+    public static Pair<Map<Constants.Substance, Double>, Double> solve(double T, double EPS, int MAX_ITER, double[] start, List<Double> P) {
         List<Double> K = Arrays.asList(
                 Constants.K(9, T),
                 Constants.K(10, T)
