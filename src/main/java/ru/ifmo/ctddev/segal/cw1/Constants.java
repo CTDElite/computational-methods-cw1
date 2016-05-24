@@ -47,7 +47,7 @@ public class Constants {
             return 1.074 * Math.pow(T / eps_N2(), -0.1604);
         }
 
-        double D(double T) {
+        public double D(double T) {
             return 2.628e-2 * T * Math.sqrt(T) / (P_A * sigma_N2() * omega(T) * Math.sqrt(mu_N2()));
         }
 
