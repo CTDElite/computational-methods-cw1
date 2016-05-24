@@ -47,8 +47,10 @@ public class MainApp_task1 extends Application {
                 double TK = T + 273.15;
                 double px = 1 / TK;
                 Map<Constants.Substance, Double> PP = Solver.solve(TK);
+                
                 double py_G = ii[pos].G(TK, PP.get(ii[pos]), delta);
                 points.add(new XYChart.Data<Object, Object>(px, py_G));
+                System.err.println(px + " " + py_G);
             }
             chart.getData().add(new XYChart.Series<>("G_" + ii[pos].toString(), points));
         }
@@ -59,7 +61,7 @@ public class MainApp_task1 extends Application {
             double TK = T + 273.15;
             double px = 1 / TK;
             Map<Constants.Substance, Double> PP = Solver.solve(TK);
-            double py_G = Constants.V(TK, PP::get, delta);
+            double py_G = Constants.Substance.AL.V(TK, PP::get, delta);
             points.add(new XYChart.Data<Object, Object>(px, py_G));
         }
         chart.getData().add(new XYChart.Series<>("V_Al", points));
