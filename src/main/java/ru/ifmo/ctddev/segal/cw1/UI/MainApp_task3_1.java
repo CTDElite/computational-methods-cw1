@@ -37,28 +37,28 @@ public class MainApp_task3_1 extends Application {
         int T = 1100;
         double TK = T + 273.15;
         //G_i
-        for (int pos = 0; pos < 2; pos++) {
-            ObservableList<XYChart.Data<Object, Object>> points = FXCollections.observableArrayList();
-            for (double x_g = 0.0; x_g <= 1.0; x_g += 0.05) {
-                double px = x_g;
-                Pair<Map<Constants.Substance, Double>, Double> PP = Solver.solve1(TK, x_g);
-                double py_G = ii[pos].G(TK, PP.getKey().get(ii[pos]), delta);
-                points.add(new XYChart.Data<Object, Object>(px, py_G));
-                System.err.println("T = " + T + " G" + py_G + ", " + py_G);
-            }
-            chart.getData().add(new XYChart.Series<>("G_" + ii[pos].toString(), points));
-        }
+//        for (int pos = 0; pos < 2; pos++) {
+//            ObservableList<XYChart.Data<Object, Object>> points = FXCollections.observableArrayList();
+//            for (double x_g = 0.0; x_g <= 1.0; x_g += 0.01) {
+//                double px = x_g;
+//                Pair<Map<Constants.Substance, Double>, Double> PP = Solver.solve1(TK, x_g);
+//                double py_G = ii[pos].G(TK, PP.getKey().get(ii[pos]), delta);
+//                points.add(new XYChart.Data<Object, Object>(px, py_G));
+//                System.err.println("T = " + T + " G" + py_G + ", " + py_G);
+//            }
+//            chart.getData().add(new XYChart.Series<>("G_" + ii[pos].toString(), points));
+//        }
 
         //V_i
-        ObservableList<XYChart.Data<Object, Object>> points = FXCollections.observableArrayList();
-        for (double x_g = 0.0; x_g <= 1.0; x_g += 0.05) {
-            double px = x_g;
-            Pair<Map<Constants.Substance, Double>, Double> PP = Solver.solve1(TK, x_g);
-            double py_V = Constants.VgAlGaN(TK, PP.getKey()::get, delta);
-            points.add(new XYChart.Data<Object, Object>(px, py_V));
-//            System.err.println("T = " + T + " V = " + py_V);
-        }
-        chart.getData().add(new XYChart.Series<>("V_AL_GA_N", points));
+//        ObservableList<XYChart.Data<Object, Object>> points = FXCollections.observableArrayList();
+//        for (double x_g = 0.0; x_g <= 1.0; x_g += 0.05) {
+//            double px = x_g;
+//            Pair<Map<Constants.Substance, Double>, Double> PP = Solver.solve1(TK, x_g);
+//            double py_V = Constants.VgAlGaN(TK, PP.getKey()::get, delta);
+//            points.add(new XYChart.Data<Object, Object>(px, py_V));
+////            System.err.println("T = " + T + " V = " + py_V);
+//        }
+//        chart.getData().add(new XYChart.Series<>("V_AL_GA_N", points));
 
 
         //x

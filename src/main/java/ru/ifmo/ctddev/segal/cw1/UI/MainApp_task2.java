@@ -41,7 +41,7 @@ public class MainApp_task2 extends Application {
                 double px = 1 / TK;
                 Map<Constants.Substance, Double> PP = Solver.solve(TK);
                 double py_G = ii[pos].G(TK, PP.get(ii[pos]), delta);
-                double log_py_G = Math.log(Math.abs(py_G));
+                double log_py_G = Math.log(-py_G);
                 points.add(new XYChart.Data<Object, Object>(px, log_py_G));
                 System.err.println(ii[pos].toString() + " T = " + T + " G " + py_G + ", " + log_py_G);
             }
@@ -49,17 +49,17 @@ public class MainApp_task2 extends Application {
         }
 
         //V_i
-        ObservableList<XYChart.Data<Object, Object>> points = FXCollections.observableArrayList();
-        for (int T = 650; T <= 950; T += 1) {
-            double TK = T + 273.15;
-            double px = 1 / TK;
-            Map<Constants.Substance, Double> PP = Solver.solve(TK);
-            double py_V = Constants.Substance.GA.V(TK, PP::get, delta);
-            double log_py_V = Math.log(Math.abs(py_V));
-            points.add(new XYChart.Data<Object, Object>(px, log_py_V));
-//            System.err.println("T = " + T + " V = " + log_py_V);
-        }
-        chart.getData().add(new XYChart.Series<>("V_GA", points));
+//        ObservableList<XYChart.Data<Object, Object>> points = FXCollections.observableArrayList();
+//        for (int T = 650; T <= 950; T += 1) {
+//            double TK = T + 273.15;
+//            double px = 1 / TK;
+//            Map<Constants.Substance, Double> PP = Solver.solve(TK);
+//            double py_V = Constants.Substance.GA.V(TK, PP::get, delta);
+//            double log_py_V = Math.log(Math.abs(py_V));
+//            points.add(new XYChart.Data<Object, Object>(px, log_py_V));
+////            System.err.println("T = " + T + " V = " + log_py_V);
+//        }
+//        chart.getData().add(new XYChart.Series<>("V_GA", points));
 
 
         vBox.getChildren().add(chart);
