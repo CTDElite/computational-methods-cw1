@@ -13,10 +13,10 @@ public class Solver {
     public static final double EPS = 1e-6;
     public static final double[] start = new double[] {0, 0, 0, 0, 0};
 
-    public double[] solve1(double T) {
+    public double[] solve1(double T, double xg) {
         return solve(T, EPS, MAX_ITER, start, Arrays.asList(
-                15D,
-                15D,
+                30 * xg,
+                30 * (1 - xg),
                 1500D,
                 0D,
                 0D,
@@ -24,10 +24,10 @@ public class Solver {
         ));
     }
 
-    public double[] solve2(double T) {
+    public double[] solve2(double T, double xg) {
         return solve(T, EPS, MAX_ITER, start, Arrays.asList(
-                15D,
-                15D,
+                30 * xg,
+                30 * (1 - xg),
                 1500D,
                 0D,
                 9847D,
