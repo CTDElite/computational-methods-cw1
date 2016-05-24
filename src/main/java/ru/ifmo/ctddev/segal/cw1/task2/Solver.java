@@ -6,7 +6,10 @@ import ru.ifmo.ctddev.segal.cw1.FunctionalVector;
 import ru.ifmo.ctddev.segal.cw1.system_solvers.newton_method.NewtonMethod;
 
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * @author Aleksei Latyshev
@@ -17,23 +20,25 @@ public class Solver {
     public static final double EPS = 1e-6;
     public static final double[] start = new double[] {0, 0, 0, 0, 0};
 
-    public double[] solve(double T) {
+    public static Map<Constants.Substance, Double> solve(double T) {
         return solve(T, EPS, MAX_ITER, start);
     }
 
-    public double[] solve(double T, double EPS, int MAX_ITER, double[] start) {
+    public static Map<Constants.Substance, Double> solve(double T, double EPS, int MAX_ITER, double[] start) {
         List<Double> K = Arrays.asList(
                 Constants.K(1, T),
                 Constants.K(2, T),
                 Constants.K(3, T)
         );
-        List<Double> D = Arrays.asList(
-                Constants.Substance.GA_CL.D(T),
-                Constants.Substance.GA_CL2.D(T),
-                Constants.Substance.GA_CL3.D(T),
-                Constants.Substance.H_CL.D(T),
-                Constants.Substance.H2.D(T)
+
+        List<Constants.Substance> substances = Arrays.asList(
+                Constants.Substance.AL_CL,
+                Constants.Substance.AL_CL2,
+                Constants.Substance.AL_CL3,
+                Constants.Substance.H_CL,
+                Constants.Substance.H2
         );
+        List<Double> D = substances.stream().map(substance -> substance.D(T)).collect(Collectors.toList());
         List<Double> P = Arrays.asList(
                 0D,
                 0D,
@@ -44,6 +49,11 @@ public class Solver {
         );
         FunctionalMatrix J = Jacobi.createTask2(K, D);
         FunctionalVector F = Task.task2(K, D, P);
-        return NewtonMethod.solve(start, J, F, EPS, MAX_ITER);
+        double[] ans = NewtonMethod.solve(start, J, F, EPS, MAX_ITER);
+        Map<Constants.Substance, Double> ret = new HashMap<>();
+        for (int i = 0; i < ans.length; i++) {
+            ret.put(substances.get(i), ans[i]);
+        }
+        return ret;
     }
 }
