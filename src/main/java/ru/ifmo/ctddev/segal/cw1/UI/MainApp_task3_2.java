@@ -1,9 +1,7 @@
 package ru.ifmo.ctddev.segal.cw1.ui;
 
 import javafx.application.Application;
-import javafx.beans.Observable;
 import javafx.collections.FXCollections;
-import javafx.collections.ObservableArray;
 import javafx.collections.ObservableList;
 import javafx.scene.Scene;
 import javafx.scene.chart.LineChart;
@@ -11,15 +9,16 @@ import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import javafx.util.Pair;
 import ru.ifmo.ctddev.segal.cw1.Constants;
-import ru.ifmo.ctddev.segal.cw1.task2.Solver;
+import ru.ifmo.ctddev.segal.cw1.task3.Solver;
 
-import java.util.*;
+import java.util.Map;
 
 /**
  * Created by Daria on 24.05.2016.
  */
-public class MainApp_task2 extends Application {
+public class MainApp_task3_2 extends Application {
 
     public static void main(String[] args) {
         launch(args);
@@ -31,16 +30,18 @@ public class MainApp_task2 extends Application {
         LineChart chart = new LineChart(new NumberAxis(), new NumberAxis());
 
         double delta = 0.01;
-        Constants.Substance[] ii = new Constants.Substance[]{Constants.Substance.GA_CL, Constants.Substance.GA_CL2,
-                Constants.Substance.GA_CL3, Constants.Substance.H_CL, Constants.Substance.H2};
+        Constants.Substance[] ii = new Constants.Substance[]{Constants.Substance.AL_CL3, Constants.Substance.GA_CL,
+                Constants.Substance.N_H3, Constants.Substance.H_CL, Constants.Substance.H2};
+
+        int T = 1100;
+        double TK = T + 273.15;
         //G_i
         for (int pos = 0; pos < 3; pos++) {
             ObservableList<XYChart.Data<Object, Object>> points = FXCollections.observableArrayList();
-            for (int T = 350; T <= 650; T += 5) {
-                double TK = T + 273.15;
-                double px = 1 / TK;
-                Map<Constants.Substance, Double> PP = Solver.solve(TK);
-                double py_G = ii[pos].G(TK, PP.get(ii[pos]), delta);
+            for (double x_g = 0.0; x_g <= 1.0; x_g += 0.05) {
+                double px = x_g;
+                Pair<Map<Constants.Substance, Double>, Double> PP = Solver.solve2(TK, x_g);
+                double py_G = ii[pos].G(TK, PP.getKey().get(ii[pos]), delta);
                 double log_py_G = Math.log(Math.abs(py_G));
                 points.add(new XYChart.Data<Object, Object>(px, log_py_G));
                 System.err.println("T = " + T + " G" + py_G + ", " + log_py_G);
@@ -50,16 +51,16 @@ public class MainApp_task2 extends Application {
 
         //V_i
         ObservableList<XYChart.Data<Object, Object>> points = FXCollections.observableArrayList();
-        for (int T = 350; T <= 650; T += 5) {
-            double TK = T + 273.15;
+        for (double x_g = 0.0; x_g <= 1.0; x_g += 0.05) {
             double px = 1 / TK;
-            Map<Constants.Substance, Double> PP = Solver.solve(TK);
-            double py_V = Constants.Substance.GA.V(TK, PP::get, delta);
+            Pair<Map<Constants.Substance, Double>, Double> PP = Solver.solve2(TK, x_g);
+            double py_V = Constants.Substance.AL_GA_N.V(TK, PP.getKey()::get, delta);
             double log_py_V = Math.log(Math.abs(py_V));
             points.add(new XYChart.Data<Object, Object>(px, log_py_V));
 //            System.err.println("T = " + T + " V = " + log_py_V);
         }
-        chart.getData().add(new XYChart.Series<>("V_GA", points));
+        chart.getData().add(new XYChart.Series<>("V_AL_GA_N", points));
+
 
 
         vBox.getChildren().add(chart);
@@ -70,4 +71,5 @@ public class MainApp_task2 extends Application {
             System.out.println();
         });
     }
+
 }
