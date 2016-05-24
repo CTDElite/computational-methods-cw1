@@ -1,8 +1,10 @@
 package ru.ifmo.ctddev.segal.cw1.task1;
 
+import org.ejml.simple.SimpleMatrix;
 import ru.ifmo.ctddev.segal.cw1.Constants;
 import ru.ifmo.ctddev.segal.cw1.FunctionalMatrix;
 import ru.ifmo.ctddev.segal.cw1.FunctionalVector;
+import ru.ifmo.ctddev.segal.cw1.system_solvers.Utils;
 import ru.ifmo.ctddev.segal.cw1.system_solvers.newton_method.NewtonMethod;
 
 import java.util.Arrays;
@@ -51,6 +53,7 @@ public class Solver {
         FunctionalMatrix J = Jacobi.createTask1(K, D);
         FunctionalVector F = Task.task1(K, D, P);
         double[] ans = NewtonMethod.solve(start, J, F, EPS, MAX_ITER);
+        System.err.println("zero = " + new SimpleMatrix(new double[][]{F.apply(Utils.toList(ans))}).normF());
         Map<Constants.Substance, Double> ret = new HashMap<>();
         for (int i = 0; i < ans.length; i++) {
             ret.put(substances.get(i), P.get(i) - ans[i]);

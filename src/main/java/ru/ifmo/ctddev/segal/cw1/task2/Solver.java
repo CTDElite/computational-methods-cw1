@@ -26,9 +26,9 @@ public class Solver {
 
     public static Map<Constants.Substance, Double> solve(double T, double EPS, int MAX_ITER, double[] start) {
         List<Double> K = Arrays.asList(
-                Constants.K(1, T),
-                Constants.K(2, T),
-                Constants.K(3, T)
+                Constants.K(4, T),
+                Constants.K(5, T),
+                Constants.K(6, T)
         );
 
         List<Constants.Substance> substances = Arrays.asList(
