@@ -32,9 +32,9 @@ public class Solver {
         );
 
         List<Constants.Substance> substances = Arrays.asList(
-                Constants.Substance.AL_CL,
-                Constants.Substance.AL_CL2,
-                Constants.Substance.AL_CL3,
+                Constants.Substance.GA_CL,
+                Constants.Substance.GA_CL2,
+                Constants.Substance.GA_CL3,
                 Constants.Substance.H_CL,
                 Constants.Substance.H2
         );
