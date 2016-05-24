@@ -83,6 +83,10 @@ public class Constants {
         }
     }
 
+    public static double VgAlGaN(double T, Function<Substance, Double> dP, double delta) {
+        return (AL_CL3.G(T, dP.apply(AL_CL3), delta) * AL_N.mu / AL_N.ro +
+                GA_CL.G(T, dP.apply(GA_CL), delta) * GA_N.mu / GA_N.ro) * 1e9;
+    }
 
     public static double K(int number, double T) {
         double dG;
