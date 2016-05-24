@@ -18,7 +18,8 @@ public class GradientMethod {
         for (int i = 0; i < MAX_ITER; i++) {
             SimpleMatrix f = new SimpleMatrix(new double[][]{F.apply(toList(extract(x)))});
             SimpleMatrix W = new SimpleMatrix(J.apply(toList(extract(x))));
-            double u = f.mult(W.mult(W.transpose()).mult(f.transpose())).get(0, 0);
+            SimpleMatrix H = W.mult(W.transpose()).mult(f.transpose());
+            double u = f.mult(H).get(0, 0) / H.transpose().mult(H).get(0, 0);
 
             SimpleMatrix next = x.minus(W.transpose().mult(f.transpose()).scale(u));
             if (x.minus(next).normF() < EPS) {
