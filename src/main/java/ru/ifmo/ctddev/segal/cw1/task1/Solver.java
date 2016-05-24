@@ -20,11 +20,11 @@ public class Solver {
     public static final double EPS = 1e-6;
     public static final double[] start = new double[] {0, 0, 0, 0, 0};
 
-    public Map<Constants.Substance, Double> solve(double T) {
+    public static Map<Constants.Substance, Double> solve(double T) {
         return solve(T, EPS, MAX_ITER, start);
     }
 
-    public Map<Constants.Substance, Double> solve(double T, double EPS, int MAX_ITER, double[] start) {
+    public static Map<Constants.Substance, Double> solve(double T, double EPS, int MAX_ITER, double[] start) {
         List<Double> K = Arrays.asList(
                 Constants.K(1, T),
                 Constants.K(2, T),

@@ -12,6 +12,7 @@ import javafx.scene.chart.XYChart;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import ru.ifmo.ctddev.segal.cw1.Constants;
+import ru.ifmo.ctddev.segal.cw1.task1.Solver;
 
 import java.util.*;
 
@@ -45,9 +46,8 @@ public class MainApp_task1 extends Application {
             for (int T = 350; T <= 650; T += 5) {
                 double TK = T + 273.15;
                 double px = 1 / TK;
-                Map<Constants.Substance, Double> Pie = //TODO;
-                Map<Constants.Substance, Double> Pig = //TODO;
-                double py_G = ii[pos].G(TK, Pig.get(ii[pos]), Pie.get(ii[pos]), delta);
+                Map<Constants.Substance, Double> PP = Solver.solve(TK);
+                double py_G = ii[pos].G(TK, PP.get(ii[pos]), delta);
                 points.add(new XYChart.Data<Object, Object>(px, py_G));
             }
             chart.getData().add(new XYChart.Series<>("G_" + ii[pos].toString(), points));
@@ -58,9 +58,8 @@ public class MainApp_task1 extends Application {
         for (int T = 350; T <= 650; T += 5) {
             double TK = T + 273.15;
             double px = 1 / TK;
-            Map<Constants.Substance, Double> Pie = //TODO;
-            Map<Constants.Substance, Double> Pig = //TODO;
-            double py_G = Constants.V(TK, Pig::get, Pie::get, delta);
+            Map<Constants.Substance, Double> PP = Solver.solve(TK);
+            double py_G = Constants.V(TK, PP::get, delta);
             points.add(new XYChart.Data<Object, Object>(px, py_G));
         }
         chart.getData().add(new XYChart.Series<>("V_Al", points));
