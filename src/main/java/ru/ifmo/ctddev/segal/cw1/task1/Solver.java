@@ -8,8 +8,21 @@ import ru.ifmo.ctddev.segal.cw1.system_solvers.newton_method.NewtonMethod;
 import java.util.Arrays;
 import java.util.List;
 
+/**
+ * @author Aleksei Latyshev
+ */
+
 public class Solver {
-    public double[] solve(double T, double EPS, int MAX_ITER) {
+
+    public static final int MAX_ITER = 1000;
+    public static final double EPS = 1e-6;
+    public static final double[] start = new double[] {0, 0, 0, 0, 0};
+
+    public double[] solve(double T) {
+        return solve(T, EPS, MAX_ITER, start);
+    }
+
+    public double[] solve(double T, double EPS, int MAX_ITER, double[] start) {
         List<Double> K = Arrays.asList(
                 Constants.K(1, T),
                 Constants.K(2, T),
@@ -32,7 +45,7 @@ public class Solver {
         );
         FunctionalMatrix J = Jacobi.createTask1(K, D);
         FunctionalVector F = Task.task1(K, D, P);
-        return NewtonMethod.solve(new double[] {0, 0, 0, 0, 0}, J, F, EPS, MAX_ITER);
+        return NewtonMethod.solve(start, J, F, EPS, MAX_ITER);
     }
 
 }
