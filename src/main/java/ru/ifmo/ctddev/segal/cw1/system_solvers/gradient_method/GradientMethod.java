@@ -3,6 +3,9 @@ package ru.ifmo.ctddev.segal.cw1.system_solvers.gradient_method;
 import org.ejml.simple.SimpleMatrix;
 import ru.ifmo.ctddev.segal.cw1.FunctionalMatrix;
 import ru.ifmo.ctddev.segal.cw1.FunctionalVector;
+
+import java.util.Arrays;
+
 import static ru.ifmo.ctddev.segal.cw1.system_solvers.Utils.*;
 
 /**
@@ -21,7 +24,7 @@ public class GradientMethod {
             SimpleMatrix H = W.mult(W.transpose()).mult(f.transpose());
             double u = f.mult(H).get(0, 0) / H.transpose().mult(H).get(0, 0);
             SimpleMatrix next = x.minus(W.transpose().mult(f.transpose()).scale(u));
-            if (x.normF() != 0 && x.minus(next).normF() / x.normF() < EPS) {
+            if (x.minus(next).normF() / x.normF() < EPS) {
                 x = next;
                 ok = true;
                 break;
@@ -29,6 +32,8 @@ public class GradientMethod {
             x = next;
         }
         if (ok) {
+            System.err.println("roots = " + Arrays.toString(extract(x)));
+            System.err.format("|f(roots)| = %s\n", new SimpleMatrix(t(F.apply(toList(extract(x))))).normF());
             return extract(x);
         } else {
             throw new AssertionError("gradient not converge");

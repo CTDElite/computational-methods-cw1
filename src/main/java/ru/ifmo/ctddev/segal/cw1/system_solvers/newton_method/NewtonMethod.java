@@ -4,6 +4,8 @@ import org.ejml.simple.SimpleMatrix;
 import ru.ifmo.ctddev.segal.cw1.FunctionalMatrix;
 import ru.ifmo.ctddev.segal.cw1.FunctionalVector;
 
+import java.util.Arrays;
+
 import static ru.ifmo.ctddev.segal.cw1.system_solvers.Utils.*;
 
 /**
@@ -21,7 +23,7 @@ public class NewtonMethod {
                     new SimpleMatrix(J.apply(toList(extract(x)))).invert()
                             .mult(new SimpleMatrix(t(F.apply(toList(extract(x))))))
             );
-            if (x.normF() != 0 && next.minus(x).normF() / x.normF() < EPS) {
+            if (next.minus(x).normF() / x.normF() < EPS) {
                 x = next;
                 ok = true;
                 break;
@@ -29,6 +31,8 @@ public class NewtonMethod {
             x = next;
         }
         if (ok) {
+            System.err.println("roots = " + Arrays.toString(extract(x)));
+            System.err.format("|f(roots)| = %s\n", new SimpleMatrix(t(F.apply(toList(extract(x))))).normF());
             return extract(x);
         } else {
             throw new AssertionError("Newton not converges!!!");

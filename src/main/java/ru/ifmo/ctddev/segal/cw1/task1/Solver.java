@@ -53,7 +53,6 @@ public class Solver {
         FunctionalMatrix J = Jacobi.createTask1(K, D);
         FunctionalVector F = Task.task1(K, D, P);
         double[] ans = NewtonMethod.solve(start, J, F, EPS, MAX_ITER);
-        System.err.println("zero = " + new SimpleMatrix(new double[][]{F.apply(Utils.toList(ans))}).normF());
         Map<Constants.Substance, Double> ret = new HashMap<>();
         for (int i = 0; i < ans.length; i++) {
             ret.put(substances.get(i), P.get(i) - ans[i]);
