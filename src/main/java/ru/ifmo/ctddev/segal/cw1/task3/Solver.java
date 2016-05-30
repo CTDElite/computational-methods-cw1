@@ -1,9 +1,12 @@
 package ru.ifmo.ctddev.segal.cw1.task3;
 
 import javafx.util.Pair;
+import org.ejml.simple.SimpleMatrix;
 import ru.ifmo.ctddev.segal.cw1.Constants;
 import ru.ifmo.ctddev.segal.cw1.FunctionalMatrix;
 import ru.ifmo.ctddev.segal.cw1.FunctionalVector;
+import ru.ifmo.ctddev.segal.cw1.system_solvers.Utils;
+import ru.ifmo.ctddev.segal.cw1.system_solvers.gradient_method.GradientMethod;
 import ru.ifmo.ctddev.segal.cw1.system_solvers.newton_method.NewtonMethod;
 
 import java.util.Arrays;
@@ -13,6 +16,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 public class Solver {
+
     public static final int MAX_ITER = 1000;
     public static final double EPS = 1e-3;
     public static final double[] start = new double[] {14000, 24, 0, 10, 1550, 0.5};
@@ -34,7 +38,7 @@ public class Solver {
                 30 * (1 - xg),
                 1500D,
                 0D,
-                9847D,
+                1000000000D,
                 98470D - 9847D
         ));
     }
@@ -55,6 +59,7 @@ public class Solver {
         FunctionalMatrix J = Jacobi.createTask3(K, D, P);
         FunctionalVector F = Task.task3(K, D, P);
         double[] ans = NewtonMethod.solve(start, J, F, EPS, MAX_ITER);
+        System.err.println("zero = " + new SimpleMatrix(new double[][]{F.apply(Utils.toList(ans))}).normF());
         Map<Constants.Substance, Double> ret = new HashMap<>();
         for (int i = 0; i < substances.size(); i++) {
             ret.put(substances.get(i), ans[i]);

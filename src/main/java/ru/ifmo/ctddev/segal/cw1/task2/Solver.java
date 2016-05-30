@@ -3,6 +3,7 @@ package ru.ifmo.ctddev.segal.cw1.task2;
 import ru.ifmo.ctddev.segal.cw1.Constants;
 import ru.ifmo.ctddev.segal.cw1.FunctionalMatrix;
 import ru.ifmo.ctddev.segal.cw1.FunctionalVector;
+import ru.ifmo.ctddev.segal.cw1.system_solvers.gradient_method.GradientMethod;
 import ru.ifmo.ctddev.segal.cw1.system_solvers.newton_method.NewtonMethod;
 
 import java.util.Arrays;
@@ -18,6 +19,7 @@ import java.util.stream.Collectors;
 public class Solver {
     public static final int MAX_ITER = 1000;
     public static final double EPS = 1e-3;
+
     public static final double[] start = new double[] {0.0630026367321904, 0.004562129805327361, 5983.061530895267, 0.0012250554010286466, 1561.3686274002453};
 
     public static Map<Constants.Substance, Double> solve(double T) {
@@ -49,7 +51,7 @@ public class Solver {
         );
         FunctionalMatrix J = Jacobi.createTask2(K, D);
         FunctionalVector F = Task.task2(K, D, P);
-        double[] ans = NewtonMethod.solve(start, J, F, EPS, MAX_ITER);
+        double[] ans = GradientMethod.solve(start, J, F, EPS, MAX_ITER);
         Map<Constants.Substance, Double> ret = new HashMap<>();
         for (int i = 0; i < ans.length; i++) {
             ret.put(substances.get(i), P.get(i) - ans[i]);

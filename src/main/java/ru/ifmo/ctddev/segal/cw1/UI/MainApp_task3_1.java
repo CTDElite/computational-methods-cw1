@@ -58,8 +58,6 @@ public class MainApp_task3_1 extends Application {
             points.add(new XYChart.Data<Object, Object>(px, py_V));
         }
         chart.getData().add(new XYChart.Series<>("V_AL_GA_N", points));
-
-
         //x
         ObservableList<XYChart.Data<Object, Object>> points2 = FXCollections.observableArrayList();
         for (double x_g = 0.0; x_g <= 1.0; x_g += 0.05) {
