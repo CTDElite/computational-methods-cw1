@@ -10,7 +10,7 @@ import static ru.ifmo.ctddev.segal.cw1.Constants.Substance.*;
  */
 public class Constants {
     public static final double R = 8.314;
-    public static final double P_A = 1e4;
+    public static final double P_A = 1e5;
 
     public enum Substance {
         AL_CL(-51032., 318.9948, 36.94626, -0.001226431, 1.1881743, 5.638541, -5.066135, 5.219347, 62.4345, 3.58, 932., Double.NaN),
@@ -90,21 +90,22 @@ public class Constants {
 
     public static double K(int number, double T) {
         double dG;
+        double mult;
         switch (number) {
-            case 1: dG = 2 * AL.G(T) + 2 * H_CL.G(T) - 2 * AL_CL.G(T) - H2.G(T); break;
-            case 2: dG = AL.G(T) + 2 * H_CL.G(T) - AL_CL2.G(T) - H2.G(T); break;
-            case 3: dG = 2 * AL.G(T) + 6 * H_CL.G(T) - 2 * AL_CL3.G(T) - 3 * H2.G(T); break;
-            case 4: dG = 2 * GA.G(T) + 2 * H_CL.G(T) - 2 * GA_CL.G(T) - H2.G(T); break;
-            case 5: dG = GA.G(T) + 2 * H_CL.G(T) - GA_CL2.G(T) - H2.G(T); break;
-            case 6: dG = 2 * GA.G(T) + 6 * H_CL.G(T) - 2 * GA_CL3.G(T) - 3 * H2.G(T); break;
-            case 7: dG = AL_CL.G(T) + N_H3.G(T) - AL_N.G(T) - H_CL.G(T) - H2.G(T); break;
-            case 8: dG = 2 * AL_CL2.G(T) + 2 * N_H3.G(T) - 2 * AL_N.G(T) - 4 * H_CL.G(T) - H2.G(T); break;
-            case 9: dG = AL_CL3.G(T) + N_H3.G(T) - AL_N.G(T) - 3 * H_CL.G(T); break;
-            case 10: dG = GA_CL.G(T) + N_H3.G(T) - GA_N.G(T) - H_CL.G(T) - H2.G(T); break;
-            case 11: dG = 2 * GA_CL2.G(T) + 2 * N_H3.G(T) - 2 * GA_N.G(T) - 4 * H_CL.G(T) - H2.G(T); break;
-            case 12: dG = GA_CL3.G(T) + N_H3.G(T) - GA_N.G(T) - 3 * H_CL.G(T); break;
-            default: throw new IllegalArgumentException("Invalid equation number: " + number);
+            case 1: dG = 2 * AL.G(T) + 2 * H_CL.G(T) - 2 * AL_CL.G(T) - H2.G(T); mult = 1 / P_A; break;
+            case 2: dG = AL.G(T) + 2 * H_CL.G(T) - AL_CL2.G(T) - H2.G(T); mult = 1; break;
+            case 3: dG = 2 * AL.G(T) + 6 * H_CL.G(T) - 2 * AL_CL3.G(T) - 3 * H2.G(T); mult = P_A; break;
+            case 4: dG = 2 * GA.G(T) + 2 * H_CL.G(T) - 2 * GA_CL.G(T) - H2.G(T); mult = 1 / P_A; break;
+            case 5: dG = GA.G(T) + 2 * H_CL.G(T) - GA_CL2.G(T) - H2.G(T); mult = 1; break;
+            case 6: dG = 2 * GA.G(T) + 6 * H_CL.G(T) - 2 * GA_CL3.G(T) - 3 * H2.G(T); mult = P_A; break;
+            //case 7: dG = AL_CL.G(T) + N_H3.G(T) - AL_N.G(T) - H_CL.G(T) - H2.G(T); break;
+            //case 8: dG = 2 * AL_CL2.G(T) + 2 * N_H3.G(T) - 2 * AL_N.G(T) - 4 * H_CL.G(T) - H2.G(T); break;
+            case 9: dG = AL_CL3.G(T) + N_H3.G(T) - AL_N.G(T) - 3 * H_CL.G(T); mult = 1 / P_A; break;
+            case 10: dG = GA_CL.G(T) + N_H3.G(T) - GA_N.G(T) - H_CL.G(T) - H2.G(T); mult = 1; break;
+            //case 11: dG = 2 * GA_CL2.G(T) + 2 * N_H3.G(T) - 2 * GA_N.G(T) - 4 * H_CL.G(T) - H2.G(T); break;
+            //case 12: dG = GA_CL3.G(T) + N_H3.G(T) - GA_N.G(T) - 3 * H_CL.G(T); break;
+            default: return Double.NaN; //throw new IllegalArgumentException("Invalid equation number: " + number);
         }
-        return Math.exp(-dG / (R * T)) / P_A;
+        return Math.exp(-dG / (R * T)) * mult;
     }
 }
