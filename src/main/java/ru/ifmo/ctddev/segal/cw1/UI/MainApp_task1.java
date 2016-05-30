@@ -1,4 +1,4 @@
-package ru.ifmo.ctddev.segal.cw1.ui;
+package ru.ifmo.ctddev.segal.cw1.UI;
 
 import javafx.application.Application;
 import javafx.beans.Observable;
