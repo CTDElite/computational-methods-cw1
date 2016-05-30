@@ -19,9 +19,10 @@ public class Solver {
 
     public static final int MAX_ITER = 1000;
     public static final double EPS = 1e-3;
-    public static final double[] start = new double[] {14000, 24, 0, 10, 1550, 0.5};
+    public static final double[] start = new double[] {1, 1, 1000, 10, 1, 0.5};
 
     public static Pair<Map<Constants.Substance, Double>, Double> solve1(double T, double xg) {
+        start[5] = xg;
         return solve(T, EPS, MAX_ITER, start, Arrays.asList(
                 30 * xg,
                 30 * (1 - xg),
@@ -38,7 +39,7 @@ public class Solver {
                 30 * (1 - xg),
                 1500D,
                 0D,
-                1000000000D,
+                9847D,
                 98470D - 9847D
         ));
     }
