@@ -20,9 +20,8 @@ public class GradientMethod {
             SimpleMatrix W = new SimpleMatrix(J.apply(toList(extract(x))));
             SimpleMatrix H = W.mult(W.transpose()).mult(f.transpose());
             double u = f.mult(H).get(0, 0) / H.transpose().mult(H).get(0, 0);
-
             SimpleMatrix next = x.minus(W.transpose().mult(f.transpose()).scale(u));
-            if (x.minus(next).normF() < EPS) {
+            if (x.normF() != 0 && x.minus(next).normF() / x.normF() < EPS) {
                 x = next;
                 ok = true;
                 break;
