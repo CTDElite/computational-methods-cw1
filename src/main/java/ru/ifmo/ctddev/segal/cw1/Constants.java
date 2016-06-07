@@ -51,7 +51,7 @@ public class Constants {
         }
 
         public double D(double T) {
-            return 2.628e-2 * T * Math.sqrt(T) / (P_A * sigma_N2() * omega(T) * Math.sqrt(mu_N2())) / Math.sqrt(1e23);
+            return 2.628e-2 * T * Math.sqrt(T) / (P_A * sigma_N2() * omega(T) * Math.sqrt(mu_N2()));
         }
 
         public double G(double T, double dP, double delta) {
@@ -63,7 +63,7 @@ public class Constants {
 
         public double V(double T, Function<Substance, Double> dP, double delta) {
             double sum = Arrays.stream(chlorides).mapToDouble(substance -> substance.G(T, dP.apply(substance), delta)).sum();
-            return sum * GA.mu / GA.ro * 1e-3;
+            return sum * GA.mu / GA.ro * 1e9;
         }
 
         Substance(double h, double f1, double f2, double f3, double f4, double f5, double f6, double f7, double mu, double sigma, double eps, double ro, Substance... chlorides) {
@@ -85,7 +85,7 @@ public class Constants {
 
     public static double VgAlGaN(double T, Function<Substance, Double> dP, double delta) {
         return (AL_CL3.G(T, dP.apply(AL_CL3), delta) * AL_N.mu / AL_N.ro +
-                GA_CL.G(T, dP.apply(GA_CL), delta) * GA_N.mu / GA_N.ro) * 1e-3;
+                GA_CL.G(T, dP.apply(GA_CL), delta) * GA_N.mu / GA_N.ro) * 1e9;
     }
 
     public static double K(int number, double T) {
