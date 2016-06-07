@@ -37,30 +37,32 @@ public class MainApp_task1 extends Application {
         //G_i
         for (int pos = 0; pos < 3; pos++) {
             ObservableList<XYChart.Data<Object, Object>> points = FXCollections.observableArrayList();
-            for (int T = 350; T <= 650; T += 5) {
+            for (int T = 350; T <= 650; T += 1) {
                 double TK = T + 273.15;
                 double px = 1 / TK;
                 Map<Constants.Substance, Double> PP = Solver.solve(TK);
+//                System.out.println(PP);
                 double py_G = ii[pos].G(TK, PP.get(ii[pos]), delta);
-                double log_py_G = Math.log(Math.abs(py_G));
+                double log_py_G = Math.log(-py_G);
                 points.add(new XYChart.Data<Object, Object>(px, log_py_G));
-                System.err.println("T = " + T + " G" + py_G + ", " + log_py_G);
+//                System.err.println("T = " + T + " G" + py_G + ", " + log_py_G);
             }
             chart.getData().add(new XYChart.Series<>("G_" + ii[pos].toString(), points));
         }
 
         //V_i
-        ObservableList<XYChart.Data<Object, Object>> points = FXCollections.observableArrayList();
-        for (int T = 350; T <= 650; T += 5) {
-            double TK = T + 273.15;
-            double px = 1 / TK;
-            Map<Constants.Substance, Double> PP = Solver.solve(TK);
-            double py_V = Constants.Substance.AL.V(TK, PP::get, delta);
-            double log_py_V = Math.log(Math.abs(py_V));
-            points.add(new XYChart.Data<Object, Object>(px, log_py_V));
-//            System.err.println("T = " + T + " V = " + log_py_V);
-        }
-        chart.getData().add(new XYChart.Series<>("V_Al", points));
+//        ObservableList<XYChart.Data<Object, Object>> points = FXCollections.observableArrayList();
+//        for (int T = 350; T <= 650; T += 5) {
+//            double TK = T + 273.15;
+//            double px = 1 / TK;
+//            Map<Constants.Substance, Double> PP = Solver.solve(TK);
+//            double py_V = Constants.Substance.AL.V(TK, PP::get, delta);
+//            System.out.println(py_V);
+//            double log_py_V = Math.log10(Math.abs(py_V));
+//            points.add(new XYChart.Data<Object, Object>(px, log_py_V));
+////            System.err.println("T = " + T + " V = " + log_py_V);
+//        }
+//        chart.getData().add(new XYChart.Series<>("V_Al", points));
 
         //end task1
 

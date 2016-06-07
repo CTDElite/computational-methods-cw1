@@ -23,7 +23,7 @@ public class NewtonMethod {
                     new SimpleMatrix(J.apply(toList(extract(x)))).invert()
                             .mult(new SimpleMatrix(t(F.apply(toList(extract(x))))))
             );
-            if (next.minus(x).normF() / x.normF() < EPS) {
+            if (next.minus(x).normF() / x.normF() < EPS && next.minus(x).normF() < EPS) {
                 x = next;
                 ok = true;
                 break;

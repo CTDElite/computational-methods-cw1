@@ -17,10 +17,10 @@ import java.util.stream.Collectors;
  */
 
 public class Solver {
-    public static final int MAX_ITER = 1000;
-    public static final double EPS = 1e-6;
+    public static final int MAX_ITER = 10000;
+    public static final double EPS = 5e-7;
 
-    public static final double[] start = new double[] {13692, 371, 2, 1559, 14.8};
+    public static final double[] start = new double[] {13692, 371, 2.0, 14.8, 1559};
 
     public static Map<Constants.Substance, Double> solve(double T) {
         return solve(T, EPS, MAX_ITER, start);
@@ -51,7 +51,7 @@ public class Solver {
         );
         FunctionalMatrix J = Jacobi.createTask2(K, D);
         FunctionalVector F = Task.task2(K, D, P);
-        double[] ans = GradientMethod.solve(start, J, F, EPS, MAX_ITER);
+        double[] ans = NewtonMethod.solve(start, J, F, EPS, MAX_ITER);
         Map<Constants.Substance, Double> ret = new HashMap<>();
         for (int i = 0; i < ans.length; i++) {
             ret.put(substances.get(i), P.get(i) - ans[i]);

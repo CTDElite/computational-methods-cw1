@@ -63,7 +63,7 @@ public class Constants {
 
         public double V(double T, Function<Substance, Double> dP, double delta) {
             double sum = Arrays.stream(chlorides).mapToDouble(substance -> substance.G(T, dP.apply(substance), delta)).sum();
-            return sum * GA.mu / GA.ro * 1e9;
+            return sum * mu / ro * 1e9;
         }
 
         Substance(double h, double f1, double f2, double f3, double f4, double f5, double f6, double f7, double mu, double sigma, double eps, double ro, Substance... chlorides) {
